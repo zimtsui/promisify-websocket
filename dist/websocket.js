@@ -1,7 +1,22 @@
 import WebSocket from 'ws';
 import Startable from 'startable';
 import { promisify } from 'util';
-import { once } from 'events';
+function once(ee, event) {
+    return new Promise((resolve, reject) => {
+        function onEvent() {
+            ee.off(event, onEvent);
+            ee.off('error', onError);
+            resolve();
+        }
+        function onError(err) {
+            ee.off(event, onEvent);
+            ee.off('error', onError);
+            reject(err);
+        }
+        ee.on(event, onEvent);
+        ee.on('error', onError);
+    });
+}
 class PassiveClose extends Error {
     constructor() {
         super('Passive close');

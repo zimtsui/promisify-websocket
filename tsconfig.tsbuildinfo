@@ -487,7 +487,7 @@
         "affectsGlobalScope": false
       },
       "./src/websocket.ts": {
-        "version": "bacd613f57f851b4aff6f799c3f6841dcc7fdaae568d9f89b999fa4b5fb0bd82",
+        "version": "aab03461cab7335dd57834dd70b9abbf62557ffc28f4d9879b9723d0f6def8f3",
         "signature": "716d1c9c4148154f920bb79634ab41b78c3ca9ca554205d8ed5ea7fc132479e9",
         "affectsGlobalScope": false
       },
