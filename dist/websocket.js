@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import Startable from 'startable';
 import { promisify } from 'util';
+// 之所以自己写一个是因为 https://github.com/websockets/ws/issues/1795
 function once(ee, event) {
     return new Promise((resolve, reject) => {
         function onEvent() {
