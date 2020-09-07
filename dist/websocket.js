@@ -2,6 +2,7 @@ import WebSocket from 'ws';
 import Startable from 'startable';
 import { promisify } from 'util';
 // 之所以自己写一个是因为 https://github.com/websockets/ws/issues/1795
+// p-event 的声明文件写得有点问题，也不用
 function once(ee, event) {
     return new Promise((resolve, reject) => {
         function onEvent() {
