@@ -30,13 +30,17 @@ class PassiveClose extends Error {
 
 class PromisifiedWebSocket extends Startable {
     private socket?: WebSocket;
+    private url?: string;
 
-    constructor(private url: string) {
+    constructor(urlOrSocket: string | WebSocket) {
         super();
+        if (typeof urlOrSocket === 'string')
+            this.url = urlOrSocket;
+        else this.socket = urlOrSocket;
     }
 
     protected async _start() {
-        this.socket = new WebSocket(this.url);
+        this.socket = new WebSocket(this.url!);
         // args
         this.socket.on('close', () => this.stop(new PassiveClose()));
         this.socket.on('message', message => void this.emit('message', message));
@@ -44,16 +48,16 @@ class PromisifiedWebSocket extends Startable {
         await once(this.socket, 'open');
     }
 
-    protected async _stop(err?: Error) {
-        if (!err) {
+    protected async _stop() {
+        if (this.socket!.readyState !== WebSocket.CLOSED) {
             this.socket!.close();
             await once(this.socket!, 'close');
         }
     }
 
-    // TODO
-    public async send(message: string | Buffer): Promise<void> {
-        await promisify(this.socket!.send.bind(this.socket))(message);
+    public async send(message: string | ArrayBuffer): Promise<void> {
+        const sendAsync = promisify(this.socket!.send.bind(this.socket!));
+        await sendAsync(message);
     }
 }
 

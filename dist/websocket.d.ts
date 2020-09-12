@@ -1,14 +1,14 @@
-/// <reference types="node" />
+import WebSocket from 'ws';
 import Startable from 'startable';
 declare class PassiveClose extends Error {
     constructor();
 }
 declare class PromisifiedWebSocket extends Startable {
-    private url;
     private socket?;
-    constructor(url: string);
+    private url?;
+    constructor(urlOrSocket: string | WebSocket);
     protected _start(): Promise<void>;
-    protected _stop(err?: Error): Promise<void>;
-    send(message: string | Buffer): Promise<void>;
+    protected _stop(): Promise<void>;
+    send(message: string | ArrayBuffer): Promise<void>;
 }
 export { PromisifiedWebSocket as default, PromisifiedWebSocket, PassiveClose, };

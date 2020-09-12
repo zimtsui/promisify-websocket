@@ -25,9 +25,12 @@ class PassiveClose extends Error {
     }
 }
 class PromisifiedWebSocket extends Startable {
-    constructor(url) {
+    constructor(urlOrSocket) {
         super();
-        this.url = url;
+        if (typeof urlOrSocket === 'string')
+            this.url = urlOrSocket;
+        else
+            this.socket = urlOrSocket;
     }
     async _start() {
         this.socket = new WebSocket(this.url);
@@ -37,15 +40,15 @@ class PromisifiedWebSocket extends Startable {
         this.socket.on('error', err => this.emit('error', err));
         await once(this.socket, 'open');
     }
-    async _stop(err) {
-        if (!err) {
+    async _stop() {
+        if (this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
             await once(this.socket, 'close');
         }
     }
-    // TODO
     async send(message) {
-        await promisify(this.socket.send.bind(this.socket))(message);
+        const sendAsync = promisify(this.socket.send.bind(this.socket));
+        await sendAsync(message);
     }
 }
 export { PromisifiedWebSocket as default, PromisifiedWebSocket, PassiveClose, };

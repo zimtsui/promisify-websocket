@@ -202,13 +202,13 @@
         "affectsGlobalScope": true
       },
       "./node_modules/@types/node/ts3.1/globals.d.ts": {
-        "version": "6fc83519155969f2457d2454908d68830a6f6480974914c024eaf4e3248a2fd1",
-        "signature": "6fc83519155969f2457d2454908d68830a6f6480974914c024eaf4e3248a2fd1",
+        "version": "f6cc30897e3c0dd7dcdebda27db527cc510cde70e03c2d30632dd484f3255b84",
+        "signature": "f6cc30897e3c0dd7dcdebda27db527cc510cde70e03c2d30632dd484f3255b84",
         "affectsGlobalScope": true
       },
       "./node_modules/@types/node/ts3.1/async_hooks.d.ts": {
-        "version": "93a45c42b3b0d24b09a0303b987407e22e13adab7d2e49f3bd7332ca30afcf82",
-        "signature": "93a45c42b3b0d24b09a0303b987407e22e13adab7d2e49f3bd7332ca30afcf82",
+        "version": "c438b413e94ff76dfa20ae005f33a1c84f2480d1d66e0fd687501020d0de9b50",
+        "signature": "c438b413e94ff76dfa20ae005f33a1c84f2480d1d66e0fd687501020d0de9b50",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/ts3.1/buffer.d.ts": {
@@ -237,8 +237,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/ts3.1/crypto.d.ts": {
-        "version": "c5cc5f3a1a963e05947bb1c823d06c3758e0d352c9a97afddc3fd5a6d5c955cd",
-        "signature": "c5cc5f3a1a963e05947bb1c823d06c3758e0d352c9a97afddc3fd5a6d5c955cd",
+        "version": "f55050ab6bac28fdb7ac69871662e90ea6bce02d45a8a4ac627461908486cac3",
+        "signature": "f55050ab6bac28fdb7ac69871662e90ea6bce02d45a8a4ac627461908486cac3",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/ts3.1/dgram.d.ts": {
@@ -312,13 +312,13 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/ts3.1/perf_hooks.d.ts": {
-        "version": "0b6098fedb648cab8091cca2b022a5c729b6ef18da923852033f495907cb1a45",
-        "signature": "0b6098fedb648cab8091cca2b022a5c729b6ef18da923852033f495907cb1a45",
+        "version": "6999f789ed86a40f3bc4d7e644e8d42ffda569465969df8077cd6c4e3505dd76",
+        "signature": "6999f789ed86a40f3bc4d7e644e8d42ffda569465969df8077cd6c4e3505dd76",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/ts3.1/process.d.ts": {
-        "version": "3b421841e978ea425f634dcef9093890a6f2c245e49164101e970acd534972a8",
-        "signature": "3b421841e978ea425f634dcef9093890a6f2c245e49164101e970acd534972a8",
+        "version": "5995f6653e552ce250d773c554d37adce3b0d5ef37224b6f58730ce95e5fe268",
+        "signature": "5995f6653e552ce250d773c554d37adce3b0d5ef37224b6f58730ce95e5fe268",
         "affectsGlobalScope": true
       },
       "./node_modules/@types/node/ts3.1/punycode.d.ts": {
@@ -447,8 +447,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/assert.d.ts": {
-        "version": "a8b842671d535d14f533fd8dbfacebceacf5195069d720425d572d5cc5ab3dc4",
-        "signature": "a8b842671d535d14f533fd8dbfacebceacf5195069d720425d572d5cc5ab3dc4",
+        "version": "08d15b727da0c4f0870d98159311b5d4de1f0293dbb9f1261b6752962d2aa239",
+        "signature": "08d15b727da0c4f0870d98159311b5d4de1f0293dbb9f1261b6752962d2aa239",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/base.d.ts": {
@@ -457,8 +457,8 @@
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/index.d.ts": {
-        "version": "98a637a0675858025e5be25c133dcdc10a0640a25e7cd610a512389b1676bc30",
-        "signature": "98a637a0675858025e5be25c133dcdc10a0640a25e7cd610a512389b1676bc30",
+        "version": "6cf3c2cb86046d1dc3bb5c1bdaf3a7f37bd0d777c43285d1bd12f1d52923dd91",
+        "signature": "6cf3c2cb86046d1dc3bb5c1bdaf3a7f37bd0d777c43285d1bd12f1d52923dd91",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/ws/index.d.ts": {
@@ -487,8 +487,8 @@
         "affectsGlobalScope": false
       },
       "./src/websocket.ts": {
-        "version": "39440e391ad1a4851f53dc8f6b5235727cdc3244b7e502370e71af45edd7f618",
-        "signature": "716d1c9c4148154f920bb79634ab41b78c3ca9ca554205d8ed5ea7fc132479e9",
+        "version": "6f728a4b61bde5528323cace45666d810692d8f8862179db345ad2e3bcc80468",
+        "signature": "a71ea592e127e8b3ad38edb17f7e518c7c0e7afa0cc6987f6119a48d8fe57bf2",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
@@ -2006,6 +2006,7 @@
         "./src/websocket.ts"
       ],
       "./src/websocket.ts": [
+        "./node_modules/@types/ws/index.d.ts",
         "./node_modules/startable/dist/index.d.ts"
       ],
       "../../../../usr/local/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts": [
