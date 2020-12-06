@@ -32,20 +32,24 @@ class PromisifiedWebSocket extends Startable {
     private socket?: WebSocket;
     private url?: string;
 
-    constructor(urlOrSocket: string | WebSocket) {
+    constructor(url: string);
+    constructor(socket: WebSocket);
+    constructor(arg: any) {
         super();
-        if (typeof urlOrSocket === 'string')
-            this.url = urlOrSocket;
-        else this.socket = urlOrSocket;
+        if (typeof arg === 'string')
+            this.url = arg;
+        else {
+            this.socket = arg;
+            this.start();
+        }
     }
 
     protected async _start() {
-        this.socket = new WebSocket(this.url!);
-        // args
-        this.socket.on('close', () => this.stop(new PassiveClose()));
-        this.socket.on('message', message => void this.emit('message', message));
-        this.socket.on('error', err => this.emit('error', err));
-        await once(this.socket, 'open');
+        if (this.url) this.socket = new WebSocket(this.url!);
+        this.socket!.on('close', () => void this.stop(new PassiveClose()).catch(() => { }));
+        this.socket!.on('message', message => void this.emit('message', message));
+        this.socket!.on('error', err => void this.emit('error', err));
+        if (this.url) await once(this.socket!, 'open');
     }
 
     protected async _stop() {

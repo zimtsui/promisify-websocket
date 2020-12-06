@@ -6,7 +6,8 @@ declare class PassiveClose extends Error {
 declare class PromisifiedWebSocket extends Startable {
     private socket?;
     private url?;
-    constructor(urlOrSocket: string | WebSocket);
+    constructor(url: string);
+    constructor(socket: WebSocket);
     protected _start(): Promise<void>;
     protected _stop(): Promise<void>;
     send(message: string | ArrayBuffer): Promise<void>;
