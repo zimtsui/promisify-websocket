@@ -28,6 +28,15 @@ class PassiveClose extends Error {
     }
 }
 
+interface PromisifiedWebSocket {
+    on(event: 'message', listener: (message: WebSocket.Data) => void): this;
+    off(event: 'message', listener: (message: WebSocket.Data) => void): this;
+    once(event: 'message', listener: (message: WebSocket.Data) => void): this;
+    on(event: 'error', listener: (error: Error) => void): this;
+    off(event: 'error', listener: (error: Error) => void): this;
+    once(event: 'error', listener: (error: Error) => void): this;
+}
+
 class PromisifiedWebSocket extends Startable {
     private socket?: WebSocket;
     private url?: string;
@@ -60,7 +69,8 @@ class PromisifiedWebSocket extends Startable {
     }
 
     public async send(message: string | ArrayBuffer): Promise<void> {
-        const sendAsync = promisify(this.socket!.send.bind(this.socket!));
+        const sendAsync = <PromisifiedWebSocket['send']>
+            promisify(this.socket!.send.bind(this.socket!));
         await sendAsync(message);
     }
 }
