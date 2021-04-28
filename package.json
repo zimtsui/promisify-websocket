@@ -3,10 +3,10 @@
     "version": "0.0.1",
     "description": "",
     "type": "module",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/promisify-websocket.js",
+    "types": "./dist/promisify-websocket.d.ts",
     "scripts": {
-        "build": "tsc -b",
+        "build": "tsc -b ./src",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Zim",
