@@ -1,26 +1,7 @@
 import WebSocket from 'ws';
 import Startable from 'startable';
-import { promisify } from 'util';
-import { EventEmitter } from 'events';
-
-// 之所以自己写一个是因为 https://github.com/websockets/ws/issues/1795
-// p-event 的声明文件写得有点问题，也不用
-function once(ee: EventEmitter, event: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-        function onEvent(): void {
-            ee.off(event, onEvent);
-            ee.off('error', onError);
-            resolve();
-        }
-        function onError(err: Error): void {
-            ee.off(event, onEvent);
-            ee.off('error', onError);
-            reject(err);
-        }
-        ee.on(event, onEvent);
-        ee.on('error', onError);
-    });
-}
+import { once } from 'events';
+import { Duplex } from 'stream';
 
 class PassiveClose extends Error {
     constructor() {
@@ -28,22 +9,25 @@ class PassiveClose extends Error {
     }
 }
 
-interface PromisifiedWebSocket {
-    on(event: 'message', listener: (message: WebSocket.Data) => void): this;
-    off(event: 'message', listener: (message: WebSocket.Data) => void): this;
-    once(event: 'message', listener: (message: WebSocket.Data) => void): this;
-    on(event: 'error', listener: (error: Error) => void): this;
-    off(event: 'error', listener: (error: Error) => void): this;
-    once(event: 'error', listener: (error: Error) => void): this;
+interface Events {
+    message: [WebSocket.Data];
+    error: [Error];
 }
 
-class PromisifiedWebSocket extends Startable {
+interface PromisifiedWebSocket {
+    on<Event extends keyof Events>(event: Event, listener: (...args: Events[Event]) => void): this;
+    once<Event extends keyof Events>(event: Event, listener: (...args: Events[Event]) => void): this;
+    off<Event extends keyof Events>(event: Event, listener: (...args: Events[Event]) => void): this;
+}
+
+class PromisifiedWebSocket extends Startable implements AsyncIterable<string> {
     private socket?: WebSocket;
     private url?: string;
+    private stream?: Duplex;
 
     constructor(url: string);
     constructor(socket: WebSocket);
-    constructor(arg: any) {
+    constructor(arg: string | WebSocket) {
         super();
         if (typeof arg === 'string')
             this.url = arg;
@@ -55,6 +39,7 @@ class PromisifiedWebSocket extends Startable {
 
     protected async _start() {
         if (this.url) this.socket = new WebSocket(this.url!);
+        this.stream = WebSocket.createWebSocketStream(this.socket!);
         this.socket!.on('close', () => void this.stop(new PassiveClose()).catch(() => { }));
         this.socket!.on('message', message => void this.emit('message', message));
         this.socket!.on('error', err => void this.emit('error', err));
@@ -68,11 +53,22 @@ class PromisifiedWebSocket extends Startable {
         }
     }
 
-    public async send(message: string | ArrayBuffer): Promise<void> {
-        const sendAsync = <PromisifiedWebSocket['send']>
-            promisify(this.socket!.send.bind(this.socket!));
-        await sendAsync(message);
+    // 如果出错，send 回调可能不被调用
+    public send = (message: string | ArrayBuffer): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            const onError = (err: Error) => {
+                this.off('error', onError);
+                reject(err);
+            }
+            this.once('error', onError);
+            this.socket!.send(message, () => {
+                this.off('error', onError);
+                resolve();
+            });
+        });
     }
+
+    public [Symbol.asyncIterator] = () => this.stream![Symbol.asyncIterator]();
 }
 
 export {
