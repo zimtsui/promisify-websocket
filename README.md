@@ -1,4 +1,4 @@
-# Promisified Websocket
+# promisify-websocket
 
 WebSocket 的 send 等方法的回调，在发送失败时不保证调用，所以不能直接 promisify。
 
