@@ -1,35 +1,37 @@
 import WebSocket from 'ws';
 
-interface PWebsocket extends WebSocket {
-    sendAsync(...args: Parameters<WebSocket['send']>): Promise<void>;
-    pingAsync(...args: Parameters<WebSocket['ping']>): Promise<void>;
-    pongAsync(...args: Parameters<WebSocket['pong']>): Promise<void>;
+interface PromisifiedWebsocket extends WebSocket {
+    sendAsync(data: any): Promise<void>;
+    pingAsync(): Promise<void>;
+    pongAsync(): Promise<void>;
 }
 
-function promisifyWebsocket(socket: WebSocket): PWebsocket {
-    const pws = <PWebsocket><unknown>socket;
-    pws.sendAsync = function (...args: Parameters<WebSocket['send']>) {
-        return new Promise((resolve, reject) => {
+function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
+    const pws = ws as PromisifiedWebsocket;
+
+    // websocket payload is either text or binary.
+    pws.sendAsync = function (data: string | ArrayBuffer) {
+        return new Promise<void>((resolve, reject) => {
             this.once('error', reject);
-            this.send(args[0], args[1], () => {
+            this.send(data, () => {
                 this.off('error', reject);
                 resolve();
             });
         });
     }
-    pws.pingAsync = function (...args: Parameters<WebSocket['ping']>) {
+    pws.pingAsync = function () {
         return new Promise((resolve, reject) => {
             this.once('error', reject);
-            this.ping(args[0], args[1], () => {
+            this.ping(() => {
                 this.off('error', reject);
                 resolve();
             });
         });
     }
-    pws.pongAsync = function (...args: Parameters<WebSocket['pong']>) {
+    pws.pongAsync = function () {
         return new Promise((resolve, reject) => {
             this.once('error', reject);
-            this.pong(args[0], args[1], () => {
+            this.pong(() => {
                 this.off('error', reject);
                 resolve();
             });
@@ -41,5 +43,5 @@ function promisifyWebsocket(socket: WebSocket): PWebsocket {
 export {
     promisifyWebsocket as default,
     promisifyWebsocket,
-    PWebsocket,
+    PromisifiedWebsocket,
 }

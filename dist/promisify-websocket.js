@@ -1,27 +1,28 @@
-function promisifyWebsocket(socket) {
-    const pws = socket;
-    pws.sendAsync = function (...args) {
+function promisifyWebsocket(ws) {
+    const pws = ws;
+    // websocket payload is either text or binary.
+    pws.sendAsync = function (data) {
         return new Promise((resolve, reject) => {
             this.once('error', reject);
-            this.send(args[0], args[1], () => {
+            this.send(data, () => {
                 this.off('error', reject);
                 resolve();
             });
         });
     };
-    pws.pingAsync = function (...args) {
+    pws.pingAsync = function () {
         return new Promise((resolve, reject) => {
             this.once('error', reject);
-            this.ping(args[0], args[1], () => {
+            this.ping(() => {
                 this.off('error', reject);
                 resolve();
             });
         });
     };
-    pws.pongAsync = function (...args) {
+    pws.pongAsync = function () {
         return new Promise((resolve, reject) => {
             this.once('error', reject);
-            this.pong(args[0], args[1], () => {
+            this.pong(() => {
                 this.off('error', reject);
                 resolve();
             });

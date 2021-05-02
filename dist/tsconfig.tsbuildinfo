@@ -447,8 +447,8 @@
         "affectsGlobalScope": false
       },
       "../src/promisify-websocket.ts": {
-        "version": "b7fd3c489469b4caaa1ce128e0db911d9ae2b5099ad70fcbab909c241c7141c1",
-        "signature": "b0264bcecde5e5acbf7617b629bdca80d8bb3ec34a64faee2592762e31bb81bb",
+        "version": "c08e8b7a73f6fe786a774b0209a7bd57e82026dea3b57d389c8cf0fc363ed38e",
+        "signature": "2fdbb86fbc07d974cf0147c4615282f20d58b9ffc151bb055698587da3b06355",
         "affectsGlobalScope": false
       }
     },
