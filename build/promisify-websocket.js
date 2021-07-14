@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.promisifyWebsocket = void 0;
 function promisifyWebsocket(ws) {
     const pws = ws;
     // websocket payload is either text or binary.
@@ -30,5 +33,5 @@ function promisifyWebsocket(ws) {
     };
     return pws;
 }
-export { promisifyWebsocket as default, promisifyWebsocket, };
+exports.promisifyWebsocket = promisifyWebsocket;
 //# sourceMappingURL=promisify-websocket.js.map

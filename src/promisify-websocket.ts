@@ -1,13 +1,15 @@
 import WebSocket from 'ws';
 
-interface PromisifiedWebsocket extends WebSocket {
+// default export cannot be augmented
+// https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
+export interface PromisifiedWebsocket extends WebSocket {
     sendAsync(data: any): Promise<void>;
     pingAsync(): Promise<void>;
     pongAsync(): Promise<void>;
 }
 
-function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
-    const pws = ws as PromisifiedWebsocket;
+export function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
+    const pws = <PromisifiedWebsocket>ws;
 
     // websocket payload is either text or binary.
     pws.sendAsync = function (data: string | ArrayBuffer) {
@@ -20,7 +22,7 @@ function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
         });
     }
     pws.pingAsync = function () {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.once('error', reject);
             this.ping(() => {
                 this.off('error', reject);
@@ -29,7 +31,7 @@ function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
         });
     }
     pws.pongAsync = function () {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.once('error', reject);
             this.pong(() => {
                 this.off('error', reject);
@@ -38,10 +40,4 @@ function promisifyWebsocket(ws: WebSocket): PromisifiedWebsocket {
         });
     }
     return pws;
-}
-
-export {
-    promisifyWebsocket as default,
-    promisifyWebsocket,
-    PromisifiedWebsocket,
 }
