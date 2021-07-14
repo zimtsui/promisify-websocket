@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import WebSocket = require('ws');
 export interface PromisifiedWebsocket extends WebSocket {
     sendAsync(data: any): Promise<void>;
     pingAsync(): Promise<void>;

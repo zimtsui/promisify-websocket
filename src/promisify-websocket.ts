@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import WebSocket = require('ws');
 
 // default export cannot be augmented
 // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
